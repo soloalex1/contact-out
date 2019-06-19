@@ -17,38 +17,28 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextToSpeech.OnInitListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextToSpeech.OnInitListener {
 
-
-    private TextView mStatusTextView;
-    private EditText mEmailField;
-    private EditText mPasswordField;
-
-    // [START declare_auth]
+    private EditText inputLogin;
+    private EditText inputPassword;
     private FirebaseAuth mAuth;
-    // [END declare_auth]
 
-    TextToSpeech ttobj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Views
-        mStatusTextView = findViewById(R.id.status);
-        mEmailField = findViewById(R.id.emailField);
-        mPasswordField = findViewById(R.id.password);
+        inputLogin = findViewById(R.id.inputLogin);
+        inputPassword = findViewById(R.id.inputPassword);
 
-        // Buttons
-        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        findViewById(R.id.email_create_account_button).setOnClickListener(this);
+        // Botões
+        findViewById(R.id.btnLogin).setOnClickListener(this);
+        findViewById(R.id.btnCriarConta).setOnClickListener(this);
 
-        // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-        ttobj = new TextToSpeech(this, this);
     }
-    // [START on_start_check_user]
+
     @Override
     public void onStart() {
         super.onStart();
@@ -56,27 +46,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
-    // [END on_start_check_user]
 
-    public void updateUI(FirebaseUser fUser){
-        if (fUser !=null) {
-            mStatusTextView.setText("Sucesso no Cadastro! Uid:" + fUser.getUid());
-            fUser.sendEmailVerification();
-        } else   mStatusTextView.setText("Erro no Cadastro");
-
+    public void updateUI(FirebaseUser user){
+//        if (user != null) {
+//            mStatusTextView.setText("Sucesso no Cadastro! Uid:" + user.getUid());
+//            user.sendEmailVerification();
+//        } else mStatusTextView.setText("Erro no Cadastro");
     }
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.email_create_account_button) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.email_sign_in_button) {
+        if (i == R.id.btnCriarConta) {
+            createAccount(inputLogin.getText().toString(), inputPassword.getText().toString());
+        } else if (i == R.id.btnLogin) {
             //signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 
             //int i= 1;
-            ttobj.speak("Função não implementada", TextToSpeech.QUEUE_FLUSH,null, "1");
-            mStatusTextView.setText("Função não implementada");
+//            mStatusTextView.setText("Função não implementada");
         }
     }
 
@@ -85,55 +72,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-        //       showProgressDialog();
         // [START create_user_with_email]
-        Task t=mAuth.createUserWithEmailAndPassword(email, password);
+        Task t = mAuth.createUserWithEmailAndPassword(email, password);
         t.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
+                    // Sucesso ao fazer login
                     Log.d("appLS", "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
-
                 } else {
-                    // If sign in fails, display a message to the user.
+                    // Falha ao fazer login
                     Log.w("appLS", "createUserWithEmail:failure", task.getException());
-
                     updateUI(null);
                 }
-
             }
         });
-        // [END create_user_with_email]
     }
 
     private boolean validateForm() {
         boolean valid = true;
-
-        String email = mEmailField.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            mEmailField.setError("Requirido.");
+        if (TextUtils.isEmpty(inputLogin.getText().toString())) {
+            inputLogin.setError("Campo obrigatório");
             valid = false;
         } else {
-            mEmailField.setError(null);
+            inputLogin.setError(null);
         }
 
-        String password = mPasswordField.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError("Requirido.");
+        if (TextUtils.isEmpty(inputPassword.getText().toString())) {
+            inputPassword.setError("Requirido.");
             valid = false;
         } else {
-            mPasswordField.setError(null);
+            inputPassword.setError(null);
         }
-
         return valid;
     }
 
     @Override
     public void onInit(int status) {
-        mStatusTextView.setText("Startando TTS");
-        //ttobj.setLanguage(Locale.)
+        // TODO implementar onInit
     }
 }
