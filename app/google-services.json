@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "874685444973",
+    "firebase_url": "https://contact-out-511bc.firebaseio.com",
+    "project_id": "contact-out-511bc",
+    "storage_bucket": "contact-out-511bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874685444973:android:0bab5ee95d9686fc",
+        "android_client_info": {
+          "package_name": "com.example.contactout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874685444973-57cn1esmkbuk91ok9of3nlhd0aa817nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF2MaNtUbDCoBKf6e8CtfG_0EMD6-cSfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874685444973-57cn1esmkbuk91ok9of3nlhd0aa817nc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
