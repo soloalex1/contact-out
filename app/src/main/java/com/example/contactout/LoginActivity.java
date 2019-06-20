@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         // Views
         inputLogin = findViewById(R.id.inputLogin);
@@ -43,8 +44,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        // FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
     public void updateUI(FirebaseUser user){
@@ -60,10 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (i == R.id.btnCriarConta) {
             createAccount(inputLogin.getText().toString(), inputPassword.getText().toString());
         } else if (i == R.id.btnLogin) {
-            //signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
-            //int i= 1;
-//            mStatusTextView.setText("Função não implementada");
+            signIn(inputLogin.getText().toString(), inputPassword.getText().toString());
         }
     }
 
@@ -72,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-        // [START create_user_with_email]
+
         Task t = mAuth.createUserWithEmailAndPassword(email, password);
         t.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -91,6 +89,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    private void signIn(String login, String password){
+
+        // se o form for inválido, nada acontece feijoada
+        if(!validateForm()) return;
+
+        mAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                // se efetuar o login, atualiza a UI com os contatos do usuário
+                if(task.isSuccessful()){
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+
+                    // se não, exibe uma mensagem de erro
+                } else {
+                    Toast.makeText(LoginActivity.this, "Falha na autenticação.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private boolean validateForm() {
         boolean valid = true;
         if (TextUtils.isEmpty(inputLogin.getText().toString())) {
@@ -99,7 +118,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             inputLogin.setError(null);
         }
-
         if (TextUtils.isEmpty(inputPassword.getText().toString())) {
             inputPassword.setError("Requirido.");
             valid = false;

@@ -15,8 +15,7 @@
             <EditText
                 android:id="@+id/inputLogin"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="TextView" />
+                android:layout_height="80dp" />
 
             <Space
                 android:layout_width="match_parent"
