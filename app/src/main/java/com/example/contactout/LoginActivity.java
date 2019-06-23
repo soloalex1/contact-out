@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void updateUI(FirebaseUser user){
 //        if (user != null) {
-//            mStatusTextView.setText("Sucesso no Cadastro! Uid:" + user.getUid());
 //            user.sendEmailVerification();
 //        } else mStatusTextView.setText("Erro no Cadastro");
     }
