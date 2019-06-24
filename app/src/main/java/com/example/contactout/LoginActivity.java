@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void createAccount(String email, String password) {
-        Log.d("appLS", "createAccount:" + email);
         if (!validateForm()) return;
 
         Task t = mAuth.createUserWithEmailAndPassword(email, password);
@@ -115,7 +114,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             inputPassword.setError("Campo obrigatório.");
             valid = false;
         } else inputPassword.setError(null);
-
         return valid;
     }
 }
