@@ -17,7 +17,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText inputLogin;
@@ -41,19 +40,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
     }
 
+    // método que verifica se o usuário está logado e atualiza a UI de acordo
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         updateUI(mAuth.getCurrentUser());
     }
 
     public void updateUI(FirebaseUser user){
         if (user != null) {
             user.sendEmailVerification();
-        } else {
-            Toast.makeText(LoginActivity.this, "Falha ao obter dados do usuário.", Toast.LENGTH_LONG).show();
-        }
+        } else Toast.makeText(LoginActivity.this, "Falha ao obter dados do usuário.", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -86,40 +83,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn(String login, String password){
-
         // se o form for inválido, nada acontece feijoada
         if(!validateForm()) return;
 
         mAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                // se efetuar o login, atualiza a UI com os contatos do usuário
-                if(task.isSuccessful()){
+                if(task.isSuccessful()){ // se efetuar o login, atualiza a UI com os contatos do usuário
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
-
-                    // se não, exibe uma mensagem de erro
-                } else {
+                } else {  // se não, exibe uma mensagem de erro
                     Toast.makeText(LoginActivity.this, "Falha na autenticação.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    // método de validação do formulário de login
     private boolean validateForm() {
-        boolean valid = true;
+        boolean valid = false;
+
+        // login
         if (TextUtils.isEmpty(inputLogin.getText().toString())) {
-            inputLogin.setError("Campo obrigatório");
+            inputLogin.setError("Campo obrigatório.");
             valid = false;
-        } else {
-            inputLogin.setError(null);
-        }
+        } else inputLogin.setError(null);
+
+        // senha
         if (TextUtils.isEmpty(inputPassword.getText().toString())) {
-            inputPassword.setError("Requirido.");
+            inputPassword.setError("Campo obrigatório.");
             valid = false;
-        } else {
-            inputPassword.setError(null);
-        }
+        } else inputPassword.setError(null);
+
         return valid;
     }
 }
