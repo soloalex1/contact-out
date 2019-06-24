@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextToSpeech.OnInitListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText inputLogin;
     private EditText inputPassword;
@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.btnLogin).setOnClickListener(this);
         findViewById(R.id.btnCriarConta).setOnClickListener(this);
 
+        // Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -44,14 +45,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(mAuth.getCurrentUser());
     }
 
     public void updateUI(FirebaseUser user){
-//        if (user != null) {
-//            user.sendEmailVerification();
-//        } else mStatusTextView.setText("Erro no Cadastro");
+        if (user != null) {
+            user.sendEmailVerification();
+        } else {
+            Toast.makeText(LoginActivity.this, "Falha ao obter dados do usuário.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -66,9 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void createAccount(String email, String password) {
         Log.d("appLS", "createAccount:" + email);
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         Task t = mAuth.createUserWithEmailAndPassword(email, password);
         t.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -76,12 +76,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // Sucesso ao fazer login
-                    Log.d("appLS", "createUserWithEmail:success");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
+                    updateUI(mAuth.getCurrentUser());
                 } else {
                     // Falha ao fazer login
-                    Log.w("appLS", "createUserWithEmail:failure", task.getException());
                     updateUI(null);
                 }
             }
@@ -124,10 +121,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             inputPassword.setError(null);
         }
         return valid;
-    }
-
-    @Override
-    public void onInit(int status) {
-        // TODO implementar onInit
     }
 }

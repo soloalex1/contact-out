@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ContactOut</string>
+    <string name="contact_list">Lista de Contatos</string>
+    <string name="contact">Contato</string>
+    <string name="add_contact">Adicionar contato</string>
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="30dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
-        android:text="Default"
+        android:text="@string/contact_list"
         android:textSize="36sp"
         app:fontFamily="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,215 +33,138 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TableRow
-            android:id="@+id/coluna1"
+            android:id="@+id/contactRow1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp">
 
             <ImageButton
                 android:id="@+id/btnCall1"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_call_black_24dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@android:color/background_light" />
 
             <TextView
-                android:id="@+id/contactName2"
+                android:id="@+id/contactName1"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-
-            <ImageButton
-                android:id="@+id/btnDelete1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+                android:gravity="center|center_vertical"
+                android:text="@string/contact"
+                android:textSize="22sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/coluna2"
+            android:id="@+id/contactRow2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
 
             <ImageButton
                 android:id="@+id/btnCall2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_call_black_24dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/contactName2"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-
-            <ImageButton
-                android:id="@+id/btnDelete2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+                android:gravity="center|center_vertical"
+                android:text="@string/contact"
+                android:textSize="22sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/coluna3"
+            android:id="@+id/contactRow3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
 
             <ImageButton
                 android:id="@+id/btnCall3"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_call_black_24dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/contactName3"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-
-            <ImageButton
-                android:id="@+id/btnDelete3"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+                android:gravity="center|center_vertical"
+                android:text="@string/contact"
+                android:textSize="22sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/coluna4"
+            android:id="@+id/contactRow4"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/btnCall4"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_call_black_24dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/contactName4"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-
-            <ImageButton
-                android:id="@+id/btnDelete4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+                android:gravity="center|center_vertical"
+                android:text="@string/contact"
+                android:textSize="22sp" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/coluna5"
+            android:id="@+id/contactRow5"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/btnCall5"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_call_black_24dp" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:tint="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/contactName5"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="TextView" />
+                android:gravity="center|center_vertical"
+                android:text="@string/contact"
+                android:textSize="22sp" />
 
-            <ImageButton
-                android:id="@+id/btnDelete5"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/buttonshape"
-                android:tint="@android:color/background_light"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
         </TableRow>
     </TableLayout>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center">
+        android:layout_height="60dp">
 
-        <Button
-            android:id="@+id/btnInsert"
-            android:layout_width="@android:dimen/notification_large_icon_width"
-            android:layout_height="@android:dimen/notification_large_icon_height"
-            android:layout_marginStart="10dp"
-            android:textColor="#FFFFFF"
-            android:textSize="48sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnContact"
-            android:layout_width="@android:dimen/notification_large_icon_width"
-            android:layout_height="@android:dimen/notification_large_icon_height"
-            android:layout_marginBottom="16dp"
-            android:adjustViewBounds="false"
-            android:cropToPadding="false"
-            android:tint="@android:color/background_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btnDial"
-            android:layout_width="@android:dimen/notification_large_icon_width"
-            android:layout_height="@android:dimen/notification_large_icon_height"
-            android:layout_marginBottom="16dp"
-            android:adjustViewBounds="false"
-            android:cropToPadding="false"
-            android:tint="@android:color/background_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_contact" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+
 </LinearLayout>
