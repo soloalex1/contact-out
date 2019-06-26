@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +19,19 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.contactout.model.Conector;
 import com.example.contactout.model.Contato;
+import com.example.contactout.model.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +46,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Contato[] listaContatos;
 
     private FirebaseUser usr;
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private DatabaseReference dbRef;
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        auth = Conector.getFirebaseAuth();
+        usr = Conector.getFirebaseUser();
+        if(usr == null) finish();
+
+        database = FirebaseDatabase.getInstance();
+        dbRef = database.getReference();
+
+        getUser();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         listaContatos = new Contato[5];
+        usr = FirebaseAuth.getInstance().getCurrentUser();
 
         // Botões
         btnCall1 = findViewById(R.id.btnCall1);
@@ -71,6 +99,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCall3.setOnClickListener(this);
         btnCall4.setOnClickListener(this);
         btnCall5.setOnClickListener(this);
+    }
+
+
+    public void getUser() {
+        dbRef.child("usuarios").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Usuario> userList = new ArrayList<Usuario>();
+                userList.clear();
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Usuario user = ds.getValue(Usuario.class);
+                    userList.add(user);
+                }
+
+                for (Usuario u : userList) {
+                    if (u.getId().equals(usr.getUid())) {
+                        contactName1.setText(u.getListaContatos()[0].getNome());
+                        contactName2.setText(u.getListaContatos()[1].getNome());
+                        contactName3.setText(u.getListaContatos()[2].getNome());
+                        contactName4.setText(u.getListaContatos()[3].getNome());
+                        contactName5.setText(u.getListaContatos()[4].getNome());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -133,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
 
-                if(!exists){
+                if(exists == false){
                     for(int j = 0; j < 5; j++){
                         if(listaContatos[j].getNome().equals("")){
                             listaContatos[j].setNome(contactName);
@@ -145,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             reload();
-//            updateUI();
+            updateUI(usr);
             if(resCode == RESULT_CANCELED) Toast.makeText(this, "Falha ao obter contatos.", Toast.LENGTH_SHORT).show();
         }
     }
