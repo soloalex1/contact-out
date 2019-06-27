@@ -1,5 +1,6 @@
 package com.example.contactout;
 
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -48,8 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void updateUI(FirebaseUser user){
-        if (user != null) {
-            user.sendEmailVerification();
+        if (user != null && mAuth.getCurrentUser() == user) {
+            // TODO
         } else Toast.makeText(LoginActivity.this, "Falha ao obter dados do usuário.", Toast.LENGTH_LONG).show();
     }
 
@@ -57,28 +58,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.btnCriarConta) {
-            createAccount(inputLogin.getText().toString(), inputPassword.getText().toString());
+            createAccount();
         } else if (i == R.id.btnLogin) {
             signIn(inputLogin.getText().toString(), inputPassword.getText().toString());
         }
     }
 
-    private void createAccount(String email, String password) {
-        if (!validateForm()) return;
-
-        Task t = mAuth.createUserWithEmailAndPassword(email, password);
-        t.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sucesso ao fazer login
-                    updateUI(mAuth.getCurrentUser());
-                } else {
-                    // Falha ao fazer login
-                    updateUI(null);
-                }
-            }
-        });
+    private void createAccount() {
+        Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(i);
     }
 
     private void signIn(String login, String password){
@@ -86,12 +74,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(!validateForm()) return;
 
         mAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){ // se efetuar o login, atualiza a UI com os contatos do usuário
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
+//                    FirebaseUser user = mAuth.getCurrentUser();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+//                    updateUI(user);
+
                 } else {  // se não, exibe uma mensagem de erro
                     Toast.makeText(LoginActivity.this, "Falha na autenticação.", Toast.LENGTH_SHORT).show();
                 }

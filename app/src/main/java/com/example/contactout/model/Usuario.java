@@ -1,17 +1,20 @@
 package com.example.contactout.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
 
     private String id;
     private String email;
-    private Contato[] listaContatos;
+    private List<Contato> listaContatos;
 
     public Usuario(){}
 
     public Usuario(String id, String email){
         this.id = id;
         this.email = email;
-        this.listaContatos = new Contato[5];
+        this.listaContatos = new ArrayList<Contato>(5);
     }
 
     public String getId() {
@@ -30,11 +33,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public Contato[] getListaContatos() {
+    public List<Contato> getListaContatos() {
         return listaContatos;
     }
 
-    public void setListaContatos(Contato[] listaContatos) {
+    public void setListaContatos(List<Contato> listaContatos) {
         this.listaContatos = listaContatos;
     }
 }

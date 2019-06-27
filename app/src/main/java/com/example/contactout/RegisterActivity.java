@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.contactout.model.Conector;
 import com.example.contactout.model.Contato;
@@ -19,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             inputNewLogin.setError("Campo obrigatório.");
         }
 
-        if (password != confirmPassword) {
+        if (!password.equals(confirmPassword)) {
             isValidPassword = false;
             inputNewPassword.setError("As senhas não coincidem.");
             confirmNewPassword.setError("As senhas não coincidem.");
@@ -93,19 +98,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             String uid = task.getResult().getUser().getUid();
                             String nome = inputNewLogin.getText().toString().trim();
                             fillUser(uid, nome);
-                            Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                            Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(i);
+                            Toast.makeText(RegisterActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 }
-            );
+            ).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void fillUser(String uid, String login){
-        Contato[] listaContatos = new Contato[5];
-        for(int i = 0; i < listaContatos.length; i++){
-            listaContatos[i] = new Contato("", 0);
+        List<Contato> listaContatos = new ArrayList<Contato>(5);
+        for(int i = 0; i < listaContatos.size(); i++){
+            listaContatos.add(new Contato("", 0));
         }
 
         Usuario usr = new Usuario(uid, login);

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int GET_CONTACT = 1;
     static final int ADD_CONTACT = 2;
 
-    private Contato[] listaContatos;
+    private List<Contato> listaContatos;
 
     private FirebaseUser usr;
     private FirebaseAuth auth;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listaContatos = new Contato[5];
+        listaContatos = new ArrayList<>(5);
         usr = FirebaseAuth.getInstance().getCurrentUser();
 
         // Botões
@@ -116,11 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for (Usuario u : userList) {
                     if (u.getId().equals(usr.getUid())) {
-                        contactName1.setText(u.getListaContatos()[0].getNome());
-                        contactName2.setText(u.getListaContatos()[1].getNome());
-                        contactName3.setText(u.getListaContatos()[2].getNome());
-                        contactName4.setText(u.getListaContatos()[3].getNome());
-                        contactName5.setText(u.getListaContatos()[4].getNome());
+                        contactName1.setText(u.getListaContatos().get(0).getNome());
+                        contactName2.setText(u.getListaContatos().get(1).getNome());
+                        contactName3.setText(u.getListaContatos().get(2).getNome());
+                        contactName4.setText(u.getListaContatos().get(3).getNome());
+                        contactName5.setText(u.getListaContatos().get(4).getNome());
                     }
                 }
             }
@@ -194,9 +194,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if(exists == false){
                     for(int j = 0; j < 5; j++){
-                        if(listaContatos[j].getNome().equals("")){
-                            listaContatos[j].setNome(contactName);
-                            listaContatos[j].setNumero(Long.valueOf(contactNumber));
+                        if(listaContatos.get(j).getNome().equals("")){
+                            listaContatos.get(j).setNome(contactName);
+                            listaContatos.get(j).setNumero(Long.valueOf(contactNumber));
                             aux = j;
                             break;
                         }
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int x = 0; x < 5; x++){
             String nameKey = "nome_" + x;
             String numberKey = "number_" + x;
-            listaContatos[x] = new Contato(sp.getString(nameKey, ""), sp.getLong(numberKey, 0));
+            listaContatos.add(new Contato(sp.getString(nameKey, ""), sp.getLong(numberKey, 0)));
         }
     }
 
@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edit.remove("number_" + id);
         edit.apply();
 
-        listaContatos[id].setNome("");
-        listaContatos[id].setNumero(0);
+        listaContatos.get(id).setNome("");
+        listaContatos.get(id).setNumero(0);
 
         reload();
     }
@@ -248,37 +248,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(usr.getUid())){
 
             // linha 1
-            if(!listaContatos[0].getNome().isEmpty()){
-                contactName1.setText(listaContatos[0].getNome());
+            if(!listaContatos.get(0).getNome().isEmpty()){
+                contactName1.setText(listaContatos.get(0).getNome());
             } else row1.setVisibility(View.GONE);
 
 
             // linha 2
-            if(!listaContatos[1].getNome().isEmpty()){
-                contactName2.setText(listaContatos[1].getNome());
+            if(!listaContatos.get(1).getNome().isEmpty()){
+                contactName2.setText(listaContatos.get(1).getNome());
             } else row2.setVisibility(View.GONE);
 
             // linha 3
-            if(!listaContatos[2].getNome().isEmpty()){
-                contactName3.setText(listaContatos[2].getNome());
+            if(!listaContatos.get(2).getNome().isEmpty()){
+                contactName3.setText(listaContatos.get(2).getNome());
             } else row3.setVisibility(View.GONE);
 
             // linha4
-            if(!listaContatos[3].getNome().isEmpty()){
-                contactName4.setText(listaContatos[3].getNome());
+            if(!listaContatos.get(3).getNome().isEmpty()){
+                contactName4.setText(listaContatos.get(3).getNome());
             } else row4.setVisibility(View.GONE);
 
             // linha5
-            if(!listaContatos[0].getNome().isEmpty()){
-                contactName5.setText(listaContatos[4].getNome());
+            if(!listaContatos.get(4).getNome().isEmpty()){
+                contactName5.setText(listaContatos.get(4).getNome());
             } else row5.setVisibility(View.GONE);
         }
     }
 
     // método para abrir um contato
     private void getContact(){
-        Intent i = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
-        i.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        Intent i = new Intent(Intent.ACTION_PICK);
+        i.setDataAndType(Uri.parse("content://contacts"), ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
         startActivityForResult(i, ADD_CONTACT);
     }
 
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // chama o contato a partir do índice passado
     private void callContact(int index){
         Intent i = new Intent(Intent.ACTION_DIAL);
-        i.setData(Uri.parse("tel:" + listaContatos[index].getNumero()));
+        i.setData(Uri.parse("tel:" + listaContatos.get(index).getNumero()));
 
         // verificando permissões de acesso do aplicativo
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
