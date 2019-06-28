@@ -114,9 +114,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void fillUser(String uid, String login){
-        List<Contato> listaContatos = new ArrayList<Contato>(5);
-        for(int i = 0; i < listaContatos.size(); i++){
+    private void fillUser(String uid, String login) {
+        List<Contato> listaContatos = new ArrayList<>(5);
+        for (int i = 0; i < 5; i++) {
             listaContatos.add(new Contato("", 0));
         }
 

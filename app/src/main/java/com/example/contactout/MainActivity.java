@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int ADD_CONTACT = 2;
 
     private List<Contato> listaContatos;
+    private String currentUser;
 
     private FirebaseUser usr;
     private FirebaseAuth auth;
@@ -55,7 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         auth = Conector.getFirebaseAuth();
         usr = Conector.getFirebaseUser();
-        if(usr == null) finish();
+        if(usr == null) {
+            Toast.makeText(this, "Usuário nulo", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference();
@@ -114,15 +118,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     userList.add(user);
                 }
 
-                for (Usuario u : userList) {
-                    if (u.getId().equals(usr.getUid())) {
-                        contactName1.setText(u.getListaContatos().get(0).getNome());
-                        contactName2.setText(u.getListaContatos().get(1).getNome());
-                        contactName3.setText(u.getListaContatos().get(2).getNome());
-                        contactName4.setText(u.getListaContatos().get(3).getNome());
-                        contactName5.setText(u.getListaContatos().get(4).getNome());
-                    }
-                }
+//                for (Usuario u : userList) {
+////                    if (u.getId().equals(usr.getUid())) {
+////                        contactName1.setText(u.getListaContatos().get(0).getNome());
+////                        contactName2.setText(u.getListaContatos().get(1).getNome());
+////                        contactName3.setText(u.getListaContatos().get(2).getNome());
+////                        contactName4.setText(u.getListaContatos().get(3).getNome());
+////                        contactName5.setText(u.getListaContatos().get(4).getNome());
+////                    }
+////                }
             }
 
             @Override

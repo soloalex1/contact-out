@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     usr = mAuth.getCurrentUser();
                     Toast.makeText(LoginActivity.this, "Bem-vindo!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
 //                    updateUI(user);
                 } else {  // se não, exibe uma mensagem de erro
                     Toast.makeText(LoginActivity.this, "Falha na autenticação.", Toast.LENGTH_SHORT).show();
@@ -98,19 +97,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // método de validação do formulário de login
     private boolean validateForm() {
-        boolean valid = false;
+        boolean loginValid, passwordValid;
 
         // login
         if (TextUtils.isEmpty(inputLogin.getText().toString())) {
             inputLogin.setError("Campo obrigatório.");
-            valid = false;
-        } else inputLogin.setError(null);
+            loginValid = false;
+        } else {
+            loginValid = true;
+            inputLogin.setError(null);
+        }
 
         // senha
         if (TextUtils.isEmpty(inputPassword.getText().toString())) {
             inputPassword.setError("Campo obrigatório.");
-            valid = false;
-        } else inputPassword.setError(null);
-        return valid;
+            passwordValid = false;
+        } else {
+            passwordValid = true;
+            inputPassword.setError(null);
+        }
+
+        return (loginValid && passwordValid);
     }
 }
